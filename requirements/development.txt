@@ -1,1 +1,4 @@
 -r production.txt
+
+black==18.9b0
+isort==4.3.4
