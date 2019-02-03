@@ -169,4 +169,4 @@ DROPBOX_OAUTH2_TOKEN = get_env_variable("DROPBOX_OAUTH2_TOKEN")
 DROPBOX_ROOT_PATH = get_env_variable("DROPBOX_ROOT_PATH")
 
 SLACK_OAUTH2_TOKEN = get_env_variable("SLACK_OAUTH2_TOKEN")
-SLACK_CHANNEL = "_military_notice"
+SLACK_CHANNEL = get_env_variable("SLACK_CHANNEL")

@@ -1,3 +1,3 @@
-from military.settings.base import *
+from military.settings.production import *
 
 DEBUG = True
