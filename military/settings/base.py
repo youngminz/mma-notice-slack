@@ -72,8 +72,15 @@ WSGI_APPLICATION = "military.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": get_env_variable(
+            "DATABASE_ENGINE", default="django.db.backends.mysql"
+        ),
+        "NAME": get_env_variable("DATABASE_NAME"),
+        "USER": get_env_variable("DATABASE_USER"),
+        "PASSWORD": get_env_variable("DATABASE_PASSWORD"),
+        "HOST": get_env_variable("DATABASE_HOST"),
+        "PORT": get_env_variable("DATABASE_PORT", default="3306"),
+        "OPTIONS": {"sql_mode": "traditional"},
     }
 }
 
