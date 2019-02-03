@@ -163,3 +163,7 @@ for local_app_folder in [local_app.split(".")[0] for local_app in LOCAL_APPS]:
         "propagate": True,
         "formatter": "verbose",
     }
+
+DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
+DROPBOX_OAUTH2_TOKEN = get_env_variable("DROPBOX_OAUTH2_TOKEN")
+DROPBOX_ROOT_PATH = get_env_variable("DROPBOX_ROOT_PATH")

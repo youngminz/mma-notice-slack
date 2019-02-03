@@ -12,12 +12,13 @@ class Notice(TimeStampedModel):
     view = models.IntegerField()
     content = models.TextField()
 
+    def __str__(self):
+        return "%s (%s, %s)" % (self.title, self.writer, self.date.strftime("%Y-%m-%d"))
+
 
 class Attachment(TimeStampedModel):
     notice = models.ForeignKey(Notice, on_delete=models.CASCADE)
+    serial_number = models.CharField(max_length=20)
 
+    file = models.FileField(null=True)
     file_name = models.CharField(max_length=100)
-    file_size = models.IntegerField(null=True)
-    file_hash = models.CharField(max_length=64)
-
-    downloaded = models.BooleanField()
