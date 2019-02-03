@@ -167,3 +167,6 @@ for local_app_folder in [local_app.split(".")[0] for local_app in LOCAL_APPS]:
 DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
 DROPBOX_OAUTH2_TOKEN = get_env_variable("DROPBOX_OAUTH2_TOKEN")
 DROPBOX_ROOT_PATH = get_env_variable("DROPBOX_ROOT_PATH")
+
+SLACK_OAUTH2_TOKEN = get_env_variable("SLACK_OAUTH2_TOKEN")
+SLACK_CHANNEL = "_military_notice"

@@ -5,8 +5,10 @@ from io import BytesIO
 import requests
 from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
+from slackclient import SlackClient
 from urllib3 import Retry
 
+from django.conf import settings
 from django.core.files import File
 
 from .models import Attachment, Notice
@@ -16,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 def scrap_work_mma():
     session = requests.Session()
+    slack_client = SlackClient(settings.SLACK_OAUTH2_TOKEN)
 
     # 네트워크 통신에 실패했을 경우 {backoff factor} * (2 ^ ({number of total retries} - 1))초 이후 재시도
     retry = Retry(
@@ -102,7 +105,18 @@ def scrap_work_mma():
         )
 
         if created:
-            logger.info("[정보] 병무청 공지사항에 새로운 글이 생성되었습니다: %s", title)
+            slack_message = (
+                "<!here> 병무청 공지사항에 새로운 글이 생성되었습니다. \n\n제목: %s\n 작성자: %s\n 작성일: %s\n 조회수: %s\n 내용: %s"
+                % (title, writer, date, view, content[:500])
+            )
+            logger.info(slack_message)
+            slack_client.api_call(
+                "chat.postMessage",
+                channel=settings.SLACK_CHANNEL,
+                text=slack_message,
+                timeout=10,
+                as_user=True,
+            )
 
         attachments = [
             (file["href"], file.text.strip()) for file in attachments.select("a")
