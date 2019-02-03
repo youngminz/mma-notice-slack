@@ -36,7 +36,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = []
 
-LOCAL_APPS = ["users.apps.UsersConfig"]
+LOCAL_APPS = ["users.apps.UsersConfig", "notice.apps.NoticeConfig"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
