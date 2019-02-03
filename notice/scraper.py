@@ -1,4 +1,3 @@
-import hashlib
 import logging
 import shlex
 from io import BytesIO
@@ -55,6 +54,9 @@ def scrap_work_mma():
     ]
 
     for serial_number in serial_numbers:
+        if Notice.objects.filter(serial_number=serial_number).exists():
+            continue
+
         r = requests.post(
             "https://work.mma.go.kr/caisBYIS/board/boardView.do",
             data={
