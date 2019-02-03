@@ -109,6 +109,13 @@ def scrap_work_mma():
         for link, file_name in attachments:
             attachment_serial_number = link.split("cheombu_sn=")[1]
 
+            if Attachment.objects.filter(
+                notice=notice,
+                serial_number=attachment_serial_number,
+                file_name=file_name,
+            ).exists():
+                continue
+
             try:
                 r = session.get("https://work.mma.go.kr" + link, stream=True)
                 r.raise_for_status()

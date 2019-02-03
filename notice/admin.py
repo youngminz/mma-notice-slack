@@ -6,6 +6,7 @@ from .models import Attachment, Notice
 class AttachmentInline(admin.StackedInline):
     model = Attachment
     extra = 0
+    fields = ('file',)
 
 
 @admin.register(Notice)
