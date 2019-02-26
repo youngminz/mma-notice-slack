@@ -106,16 +106,8 @@ def scrap_work_mma():
 
         if created:
             slack_message = (
-                "<!here> 병무청 공지사항에 새로운 글이 생성되었습니다. \n\n제목: %s\n 작성자: %s\n 작성일: %s\n 조회수: %s\n 내용: %s"
-                % (title, writer, date, view, content[:500])
-            )
-            logger.info(slack_message)
-            slack_client.api_call(
-                "chat.postMessage",
-                channel=settings.SLACK_CHANNEL,
-                text=slack_message,
-                timeout=10,
-                as_user=True,
+                "<!here> 병무청 공지사항에 새로운 글이 생성되었습니다. \n\n제목: %s\n작성자: %s\n작성일: %s\n조회수: %s\n내용: %s\n"
+                % (title, writer, date, view, content)
             )
 
         attachments = [
@@ -142,15 +134,26 @@ def scrap_work_mma():
 
                 file = File(bytes_, file_name)
 
-                Attachment.objects.update_or_create(
+                attachment, _ = Attachment.objects.update_or_create(
                     notice=notice,
                     serial_number=attachment_serial_number,
                     file_name=file_name,
                     defaults={"file": file},
                 )
+                slack_message += f"\n{file_name}: {attachment.file.url}"
 
             except requests.RequestException:
                 logger.exception("파일을 내려받는 중 오류가 발생했습니다.")
                 Attachment.objects.update_or_create(
                     notice=notice, serial_number=serial_number, file_name=file_name
                 )
+                slack_message += f"\n{file_name}: (다운로드 실패)"
+
+        logger.info(slack_message)
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=settings.SLACK_CHANNEL,
+            text=slack_message,
+            timeout=10,
+            as_user=True,
+        )
