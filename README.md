@@ -9,5 +9,5 @@
 1. .env.example 파일을 참고하여 .env 파일을 만듭니다.
 2. crontab으로 10분에 한 번씩 아래 명령어를 실행하도록 만듭니다.
 ```
-$ python3 manage.py work_mma_scrap.py
+$ python3 manage.py work_mma_scrap
 ```
