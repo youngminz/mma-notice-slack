@@ -80,7 +80,6 @@ DATABASES = {
         "PASSWORD": get_env_variable("DATABASE_PASSWORD"),
         "HOST": get_env_variable("DATABASE_HOST"),
         "PORT": get_env_variable("DATABASE_PORT", default="3306"),
-        "OPTIONS": {"sql_mode": "traditional"},
     }
 }
 
@@ -163,10 +162,6 @@ for local_app_folder in [local_app.split(".")[0] for local_app in LOCAL_APPS]:
         "propagate": True,
         "formatter": "verbose",
     }
-
-DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
-DROPBOX_OAUTH2_TOKEN = get_env_variable("DROPBOX_OAUTH2_TOKEN")
-DROPBOX_ROOT_PATH = get_env_variable("DROPBOX_ROOT_PATH")
 
 SLACK_OAUTH2_TOKEN = get_env_variable("SLACK_OAUTH2_TOKEN")
 SLACK_CHANNEL = get_env_variable("SLACK_CHANNEL")

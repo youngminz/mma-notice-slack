@@ -4,7 +4,6 @@ django-model-utils==3.1.2
 django-storages==1.7.1
 django==2.1.5
 dropbox==9.3.0
-fabric3==1.14.post1
 lxml==4.3.0
 mysqlclient==1.4.1
 python-dotenv==0.9.1

@@ -14,14 +14,3 @@ class Notice(TimeStampedModel):
 
     def __str__(self):
         return "%s (%s, %s)" % (self.title, self.writer, self.date.strftime("%Y-%m-%d"))
-
-
-class Attachment(TimeStampedModel):
-    notice = models.ForeignKey(Notice, on_delete=models.CASCADE)
-    serial_number = models.CharField(max_length=20)
-
-    file = models.FileField(null=True)
-    file_name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.file_name
