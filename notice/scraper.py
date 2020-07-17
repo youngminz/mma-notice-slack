@@ -109,7 +109,7 @@ def scrap_work_mma():
 
         if created:
             slack_message = (
-                "<!here> 병무청 공지사항에 새로운 글이 생성되었습니다. \n\n제목: %s\n작성자: %s\n작성일: %s\n내용: %s\n"
+                "병무청 공지사항에 새로운 글이 생성되었습니다. \n\n```\n제목: %s\n작성자: %s\n작성일: %s\n내용: %s\n```"
                 % (title, writer, date, content)
             )
 
