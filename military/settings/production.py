@@ -94,7 +94,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "users.User"
 
-LANGUAGE_CODE = "ko_KR"
+LANGUAGE_CODE = "ko"
 
 TIME_ZONE = "Asia/Seoul"
 
