@@ -6,7 +6,6 @@ from io import BytesIO
 import requests
 from bs4 import BeautifulSoup
 from requests.adapters import HTTPAdapter
-from slackclient import SlackClient
 from urllib3 import Retry
 
 from django.conf import settings
@@ -19,7 +18,6 @@ logger = logging.getLogger(__name__)
 
 def scrap_work_mma():
     session = requests.Session()
-    slack_client = SlackClient(settings.SLACK_OAUTH2_TOKEN)
 
     # 네트워크 통신에 실패했을 경우 {backoff factor} * (2 ^ ({number of total retries} - 1))초 이후 재시도
     retry = Retry(
@@ -88,29 +86,30 @@ def scrap_work_mma():
         content = content.replace('<td class="context" colspan="4">', '').replace('</td>', '').replace('<br/>', '\n')
         content = html.unescape(content)
 
-        logger.debug(
-            f"serial_number: %s, title: %s, writer: %s, date: %s",
-            serial_number,
-            title,
-            writer,
-            date,
-        )
-
-        notice, created = Notice.objects.update_or_create(
+        notice = Notice.objects.create(
             serial_number=serial_number,
-            defaults={
-                "title": title,
-                "writer": writer,
-                "date": date,
-                "view": view,
-                "content": content,
-            },
+            title=title,
+            writer=writer,
+            date=date,
+            view=view,
+            content=content,
         )
 
-        if created:
-            slack_message = (
-                "병무청 공지사항에 새로운 글이 생성되었습니다. \n\n```\n제목: %s\n작성자: %s\n작성일: %s\n내용: %s\n```"
-                % (title, writer, date, content)
-            )
+        slack_message = (
+            "병무청 공지사항에 새로운 글이 생성되었습니다. \n\n```\n제목: %s\n작성자: %s\n작성일: %s\n내용: %s\n```"
+            % (title, writer, date, content)
+        )
+        payload = {
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": slack_message,
+                    }
+                }
+            ]
+        }
 
         logger.info(slack_message)
+        requests.post(settings.SLACK_INCOMING_WEBHOOK_URL, json=payload)

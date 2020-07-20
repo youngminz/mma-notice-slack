@@ -163,5 +163,4 @@ for local_app_folder in [local_app.split(".")[0] for local_app in LOCAL_APPS]:
         "formatter": "verbose",
     }
 
-SLACK_OAUTH2_TOKEN = get_env_variable("SLACK_OAUTH2_TOKEN")
-SLACK_CHANNEL = get_env_variable("SLACK_CHANNEL")
+SLACK_INCOMING_WEBHOOK_URL = get_env_variable("SLACK_INCOMING_WEBHOOK_URL")
