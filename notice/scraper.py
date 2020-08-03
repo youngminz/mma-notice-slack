@@ -95,6 +95,9 @@ def scrap_work_mma():
             content=content,
         )
 
+        if writer not in settings.MMA_LOCATION_LIST:
+            continue
+
         slack_message = (
             "병무청 공지사항에 새로운 글이 생성되었습니다. \n\n```\n제목: %s\n작성자: %s\n작성일: %s\n내용: %s\n```"
             % (title, writer, date, content)

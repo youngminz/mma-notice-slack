@@ -164,3 +164,5 @@ for local_app_folder in [local_app.split(".")[0] for local_app in LOCAL_APPS]:
     }
 
 SLACK_INCOMING_WEBHOOK_URL = get_env_variable("SLACK_INCOMING_WEBHOOK_URL")
+MMA_LOCATION = get_env_variable("MMA_LOCATION", "서울청")
+MMA_LOCATION_LIST = ["병무청", MMA_LOCATION]
