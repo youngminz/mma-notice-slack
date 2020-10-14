@@ -51,7 +51,7 @@ def scrap_work_mma():
     soup = BeautifulSoup(r.text, "lxml")
 
     serial_numbers = [
-        shlex.split(link["onclick"].split("(")[1].split(")")[0].replace(",", " "))[2]
+        link["onclick"].split("(")[1].split(")")[0].replace(",", " ").split("'")[5]
         for link in soup.select("td a")
     ]
 
