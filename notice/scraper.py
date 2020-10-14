@@ -1,6 +1,5 @@
 import html
 import logging
-import shlex
 from io import BytesIO
 
 import requests
