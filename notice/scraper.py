@@ -97,9 +97,18 @@ def scrap_work_mma():
         if writer not in settings.MMA_LOCATION_LIST:
             continue
 
+        attachments = [
+            (file["href"], file.text.strip()) for file in attachments.select("a")
+        ]
+
+        attachment_msg = []
+
+        for link, file_name in attachments:
+            attachment_msg.append("<https://work.mma.go.kr%s|%s>" % (link, file_name))
+
         slack_message = (
-            "병무청 공지사항에 새로운 글이 생성되었습니다. \n\n```\n제목: %s\n작성자: %s\n작성일: %s\n내용: %s\n```"
-            % (title, writer, date, content)
+            "병무청 공지사항에 새로운 글이 생성되었습니다. \n\n```\n제목: %s\n작성자: %s\n작성일: %s\n내용: %s\n```\n\n%s"
+            % (title, writer, date, content, "\n".join(attachment_msg))
         )
         payload = {
             "blocks": [
